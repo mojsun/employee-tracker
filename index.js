@@ -69,7 +69,6 @@ const viewDepartments = () => {
     mainMenu();
   });
 };
-///////////////////////////////////////////////
 // Function to view all roles and names of departments
 const viewRoles = () => {
   db.query(
@@ -92,29 +91,6 @@ const viewEmployees = () => {
       mainMenu();
     }
   );
-};
-
-// Function to add a department
-const addDepartment = () => {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "department",
-        message: "What is the name of the department you would like to add?",
-      },
-    ])
-    .then((answer) => {
-      db.query(
-        `INSERT INTO department (name) VALUES (?)`,
-        answer.department,
-        (err, result) => {
-          if (err) throw err;
-          console.log(`Department added!`);
-          mainMenu();
-        }
-      );
-    });
 };
 
 // Function to add a role
@@ -260,140 +236,5 @@ const updateEmployeeRole = () => {
           );
         });
     });
-  });
-};
-
-// Function to update an employee's manager
-const updateEmployeeManager = () => {
-  db.query(`SELECT * FROM employee`, (err, result) => {
-    if (err) throw err;
-    inquirer
-      .prompt([
-        {
-          type: "list",
-          name: "employee",
-          message: "Which employee would you like to update?",
-          choices: result.map(
-            (employee) => `${employee.first_name} ${employee.last_name}`
-          ),
-        },
-        {
-          type: "list",
-          name: "manager",
-          message: "Who is the new manager of this employee?",
-          choices: result.map(
-            (employee) => `${employee.first_name} ${employee.last_name}`
-          ),
-        },
-      ])
-      .then((answer) => {
-        db.query(
-          `UPDATE employee SET manager_id = ? WHERE id = ?`,
-          [
-            result.find(
-              (employee) =>
-                `${employee.first_name} ${employee.last_name}` ===
-                answer.manager
-            ).id,
-            result.find(
-              (employee) =>
-                `${employee.first_name} ${employee.last_name}` ===
-                answer.employee
-            ).id,
-          ],
-          (err, result) => {
-            if (err) throw err;
-            console.log(`Employee updated!`);
-            mainMenu();
-          }
-        );
-      });
-  });
-};
-
-// Function to view employees by manager
-const viewEmployeesByManager = () => {
-  db.query(`SELECT * FROM employee`, (err, result) => {
-    if (err) throw err;
-    inquirer
-      .prompt([
-        {
-          type: "list",
-          name: "manager",
-          message: "Which manager would you like to view employees for?",
-          choices: result.map(
-            (employee) => `${employee.first_name} ${employee.last_name}`
-          ),
-        },
-      ])
-      .then((answer) => {
-        db.query(
-          `SELECT * FROM employee WHERE manager_id = ?`,
-          result.find(
-            (employee) =>
-              `${employee.first_name} ${employee.last_name}` === answer.manager
-          ).id,
-          (err, result) => {
-            if (err) throw err;
-            console.table(result);
-            mainMenu();
-          }
-        );
-      });
-  });
-};
-
-// Function to view employees by department
-const viewEmployeesByDepartment = () => {
-  db.query(`SELECT * FROM department`, (err, result) => {
-    if (err) throw err;
-    inquirer
-      .prompt([
-        {
-          type: "list",
-          name: "department",
-          message: "Which department would you like to view employees for?",
-          choices: result.map((department) => department.name),
-        },
-      ])
-      .then((answer) => {
-        db.query(
-          `SELECT * FROM employee WHERE role_id IN (SELECT id FROM role WHERE department_id = ?)`,
-          result.find((department) => department.name === answer.department).id,
-          (err, result) => {
-            if (err) throw err;
-            console.table(result);
-            mainMenu();
-          }
-        );
-      });
-  });
-};
-
-// Function to view the total utilized budget of a department
-const viewTotalBudget = () => {
-  db.query(`SELECT * FROM department`, (err, result) => {
-    if (err) throw err;
-    inquirer
-      .prompt([
-        {
-          type: "list",
-          name: "department",
-          message:
-            "Which department would you like to view the total budget for?",
-          choices: result.map((department) => department.name),
-        },
-      ])
-      .then((answer) => {
-        db.query(
-          `SELECT SUM(salary) AS total_budget FROM role WHERE department_id = ?`,
-          result.find((department) => department.name === answer.department).id,
-          (err, result) => {
-            if (err) throw err;
-            console.log(`Total budget: $${result[0].total_budget}`);
-            mainMenu();
-          }
-        );
-      });
   });
 };
