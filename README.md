@@ -6,6 +6,9 @@
 
 working with sql and java script in order to answer the questions that was asking. to change the data update data and see in table
 
+[Untitled_ Feb 21, 2023 11_48 PM.webm](https://user-images.githubusercontent.com/122302309/220525478-af2f1a46-4b47-413e-a1ad-e916c5ff4aa8.webm)
+
+
 ## Installation
 
 1)Run npm install to install the required dependencies.
