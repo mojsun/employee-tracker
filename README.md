@@ -1,6 +1,5 @@
 ## Employee Tracker
 
-<img width="1669" alt="Screen Shot 2023-02-21 at 11 51 30 PM" src="https://user-images.githubusercontent.com/122302309/220525348-af3873a6-b1e3-4df8-ac0d-ab02bb7df59c.png">
 
 ## Description
 
