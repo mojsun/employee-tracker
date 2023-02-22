@@ -34,6 +34,10 @@ Console.Table
 
 License: MIT
 
+## contributors
+
+myself- also I received help from mario for this project.
+
 ## contact
 
 my email address : m.khorashahi7@gmail.com
