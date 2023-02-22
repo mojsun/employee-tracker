@@ -161,14 +161,6 @@ const addEmployee = () => {
             message: "What is the role of this employee?",
             choices: result2.map((role) => role.title),
           },
-          {
-            type: "list",
-            name: "manager",
-            message: "Who is the manager of this employee?",
-            choices: result.map(
-              (employee) => `${employee.first_name} ${employee.last_name}`
-            ),
-          },
         ])
         .then((answer) => {
           db.query(
